@@ -13,9 +13,9 @@
 	String userBelong = request.getParameter("userBelong");
 	String userAuthority = request.getParameter("userAuthority");
 
-	String url = "jdbc:mysql://localhost:3306/smartdb"; //db연결 주소
-	String SQLid = "root"; //db 아이디
-	String SQLpw = "passwd"; //db 패스워드
+	String url = "jdbc:mysql://localhost/wbkim11"; //db연결 주소
+	String SQLid = "wbkim11"; //db 아이디
+	String SQLpw = "q1w2e3r4"; //db 패스워드
 
 	Connection conn = null;
 	Statement stmt = null;

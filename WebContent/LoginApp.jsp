@@ -7,9 +7,9 @@
 	String userID = request.getParameter("userID");
 	String userPassword = request.getParameter("userPassword");
 
-	String url = "jdbc:mysql://localhost:3306/smartdb";
-	String SQLid = "root";
-	String SQLpw = "passwd";
+	String url = "jdbc:mysql://localhost/wbkim11";
+	String SQLid = "wbkim11";
+	String SQLpw = "q1w2e3r4";
 
 	Connection conn = null;
 	Statement stmt = null;

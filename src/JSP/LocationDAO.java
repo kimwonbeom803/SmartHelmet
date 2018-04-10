@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+
 public class LocationDAO {
 Connection conn;
 	
@@ -34,13 +35,13 @@ Connection conn;
 		
 		try {
 			PreparedStatement ps
-			= conn.prepareStatement("insert into locationinfo values(?,?,?,?,?)");
+			= conn.prepareStatement("insert into locationinfo values(?,?,?,?)");
 			
-			ps.setInt(1, user.getNum());
-			ps.setString(2, user.getUserID());
-			ps.setString(3, user.getName());
-			ps.setDouble(4, user.getLocationx());
-			ps.setDouble(5, user.getLocationy());
+			
+			ps.setString(1, user.getUserID());
+			ps.setString(2, user.getName());
+			ps.setDouble(3, user.getLocationx());
+			ps.setDouble(4, user.getLocationy());
 			
 			ps.addBatch();
 			ps.executeBatch();

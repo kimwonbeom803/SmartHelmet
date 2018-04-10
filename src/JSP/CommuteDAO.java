@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class CommuteDAO {
 Connection conn;
-	//¿¬°áÇÏ´Â ÀÛ¾÷
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Û¾ï¿½
 	public CommuteDAO() {
 		System.setProperty("jdbc.drivers", "com.mysql.jdbc.Driver");
 		
@@ -35,14 +35,12 @@ public void joinCommute(JSP.Commute user) throws SQLException {
 		
 		try {
 			PreparedStatement ps
-			= conn.prepareStatement("insert into commuteinfo values(?,?,?,?,?,?)");
+			= conn.prepareStatement("insert into commuteinfo values(?,?,?,?)");
 			
-			ps.setInt(1, user.getNum());
-			ps.setString(2, user.getUserID());
-			ps.setString(3, user.getName());
-			ps.setString(4, user.getDate());
-			ps.setString(5, user.getAttendtime());
-			ps.setString(6, user.getClosetime());
+			ps.setString(1, user.getUserID());
+			ps.setString(2, user.getDate());
+			ps.setString(3, user.getAttendtime());
+			ps.setString(4, user.getClosetime());
 			
 			ps.addBatch();
 			ps.executeBatch();
@@ -53,21 +51,21 @@ public void joinCommute(JSP.Commute user) throws SQLException {
 			e.printStackTrace();
 		}
 	}
-	//»èÁ¦
+	//ï¿½ï¿½ï¿½ï¿½
 	public void deleteCommute(JSP.Commute user) {
 		
 		try {
-			PreparedStatement ps
-			= conn.prepareStatement("delete from commuteinfo where userID = ?");
+			PreparedStatement ps = conn.prepareStatement("delete from commuteinfo where userID = ? and date = ?");
 			
 			ps.setString(1, user.getUserID());
+			ps.setString(2, user.getDate());
 			ps.executeUpdate();
 			ps.close();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	//º¯°æ
+	//ï¿½ï¿½ï¿½ï¿½
 	public void updateCommute(String userID, String date, String attendTime, String closeTime) {
 		
 		try {
@@ -84,7 +82,7 @@ public void joinCommute(JSP.Commute user) throws SQLException {
 			e.printStackTrace();
 		}
 	}
-	//ÀüÃ¼¼±ÅÃ
+	//ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½
 	public ArrayList<JSP.Commute> selectAllCommute() {
 		ArrayList<JSP.Commute> list = new ArrayList<JSP.Commute>();
 		
@@ -96,7 +94,6 @@ public void joinCommute(JSP.Commute user) throws SQLException {
 			while(rs.next()) {
 				Commute user = new Commute();
 				user.setUserID(rs.getString("userID"));
-				user.setName(rs.getString("name"));
 				user.setDate(rs.getString("date"));
 				user.setAttendtime(rs.getString("attendtime"));
 				user.setClosetime(rs.getString("closetime"));
@@ -109,7 +106,7 @@ public void joinCommute(JSP.Commute user) throws SQLException {
 		}
 		return list;
 	}
-	//ºÎºÐ¼±ÅÃ
+	//ï¿½ÎºÐ¼ï¿½ï¿½ï¿½
 	public JSP.Commute selectCommute(String userID) {
 		
 		JSP.Commute user = new JSP.Commute();
@@ -123,7 +120,6 @@ public void joinCommute(JSP.Commute user) throws SQLException {
 			rs.next();
 
 			user.setUserID(rs.getString("userID"));
-			user.setName(rs.getString("name"));
 			user.setDate(rs.getString("date"));
 			user.setAttendtime(rs.getString("attendtime"));
 			user.setClosetime(rs.getString("closetime"));

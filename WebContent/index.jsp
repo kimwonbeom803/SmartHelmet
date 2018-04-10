@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title> Smart-Halmet </title>
+<title> Smart-Helmet </title>
 </head>
 <body>
 <script>location.href = 'login.jsp'; </script>

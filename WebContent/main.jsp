@@ -27,13 +27,15 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="main.jsp">Smart-Halmet</a>
+				<a class="navbar-brand" href="main.jsp">Smart-Helmet</a>
 			</div>
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="main.jsp">메인</a></li>
 					<li><a href="bbs.jsp">관리자게시판</a></li>
 					<li><a href="bbs2.jsp">근로자게시판</a></li>
+					<li><a href="Attend.jsp">출근부</a></li>
+					<li><a href="GoogleMap.jsp">근로자 위치 검색</a></li>
 				</ul>
 				<%
 				if (userID == null) {
@@ -71,7 +73,7 @@
 		<div class="jumbotron">
 			<div class="container">
 				<h1>Smart-Halmet</h1>
-				<p>한국산업기술대학교 컴퓨터공학과 Smart-Halmet 졸업작품 </p>
+				<p>한국산업기술대학교 컴퓨터공학과 Smart-Helmet 졸업작품 </p>
 				
 			</div>
 		</div>

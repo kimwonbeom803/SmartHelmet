@@ -8,7 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width" , initial-scale="1">
-<title>중고거래 사이트</title>
+<title>Smart-Helmet</title>
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/custom.css">
 </head>
@@ -58,13 +58,15 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="main.jsp">중고거래 사이트</a>
+				<a class="navbar-brand" href="main.jsp">Smart-Helmet</a>
 			</div>
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li><a href="main.jsp">메인</a></li>
 					<li><a href="bbs.jsp">판매자게시판</a></li>
 					<li><a href="bbs2.jsp">구매자게시판</a></li>
+					<li><a href="Attend.jsp">출근부</a></li>
+					<li><a href="GoogleMap.jsp">근로자 위치 검색</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -80,7 +82,7 @@
 	</nav>
 	<div class="container">
 		<div class="row">
-			<form method="post" action="updateAction.jsp?bbsID2=<%= bbsID2 %>">
+			<form method="post" action="updateAction2.jsp?bbsID2=<%= bbsID2 %>">
 				<table class="table table-bordered" style="text-align: center;">
 					<thead>
 						<tr>
@@ -89,10 +91,10 @@
 					</thead>
 					<tbody>
 							<tr>
-								<td colspan="2"><input type="text" class="form-control" placeholder="글 제목" name="bbsTitle" maxlength="50" value="<%= bbs2.getBbsTitle2() %>"></td>
+								<td colspan="2"><input type="text" class="form-control" placeholder="글 제목" name="bbsTitle2" maxlength="50" value="<%= bbs2.getBbsTitle2() %>"></td>
 							</tr>
 							<tr>
-								<td colspan="2"><textarea class="form-control" name="bbsContent" placeholder="글 내용" maxlength="2048" style="height: 350px;"><%= bbs2.getBbsContent2() %></textarea></td>
+								<td colspan="2"><textarea class="form-control" name="bbsContent2" placeholder="글 내용" maxlength="2048" style="height: 350px;"><%= bbs2.getBbsContent2() %></textarea></td>
 							</tr>
 					</tbody>
 				</table>

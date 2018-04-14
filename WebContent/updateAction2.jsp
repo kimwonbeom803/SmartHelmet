@@ -10,15 +10,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>중고거래 사이트</title>
+<title>Smart-Helmet</title>
 </head>
 <body>
 	<%
-		String userID2 = null;
-		if (session.getAttribute("userID2") != null) {
-			userID2 = (String) session.getAttribute("userID2");
+		String userID = null;
+		if (session.getAttribute("userID") != null) {
+			userID = (String) session.getAttribute("userID");
 		}
-		if (userID2 == null) {
+		if (userID == null) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('로그인을 하세요.');");
@@ -34,12 +34,12 @@
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('유효하지 않은 글입니다.');");
-			script.println("location.href='bbs.jsp';");
+			script.println("location.href='bbs2.jsp';");
 			script.println("</script>");
 			script.close();
 		}
 		Bbs2 bbs2 = new BbsDAO2().getBbs(bbsID2);
-		if (!userID2.equals(bbs2.getUserID2())) {
+		if (!userID.equals(bbs2.getUserID2())) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('권한이 없습니다.');");
@@ -68,7 +68,7 @@
 				} else {
 					PrintWriter script = response.getWriter();
 					script.println("<script>");
-					script.println("location.href = 'bbs.jsp';");
+					script.println("location.href = 'bbs2.jsp';");
 					script.println("</script>");
 					script.close();
 				}

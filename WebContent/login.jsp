@@ -7,7 +7,7 @@
 <meta name= "viewport" content = "width =device-width", initial-scale="1">
 <link rel="stylesheet" href ="css/bootstrap.css">
 
-<title>중고거래 사이트</title>
+<title>Smart-Helmet</title>
 </head>
 <body>
 
@@ -34,6 +34,8 @@ aria-expanded ="farse">
 <li><a href="main.jsp">메인</a></li>
 <li><a href="bbs.jsp">관리자게시판</a></li>
 <li><a href="bbs2.jsp">근로자게시판</a></li>
+<li><a href="Attend.jsp">출근부</a></li>
+<li><a href="GoogleMap.jsp">근로자 위치 검색</a></li>
 </ul>
 <ul class="nav navbar-nav navbar-right">
 <li class="dropdown">

@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>중고거래 사이트</title>
+<title>Smart-Helmet</title>
 </head>
 <body>
 	<%
@@ -34,7 +34,7 @@
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('유효하지 않은 글입니다.');");
-			script.println("location.href='bbs.jsp2';");
+			script.println("location.href='bbs2.jsp';");
 			script.println("</script>");
 			script.close();
 		}
@@ -43,7 +43,7 @@
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('권한이 없습니다.');");
-			script.println("location.href='bbs.jsp2';");
+			script.println("location.href='bbs2.jsp';");
 			script.println("</script>");
 			script.close();
 		} else {
@@ -59,7 +59,7 @@
 			} else {
 				PrintWriter script = response.getWriter();
 				script.println("<script>");
-				script.println("location.href = 'bbs.jsp2';");
+				script.println("location.href = 'bbs2.jsp';");
 				script.println("</script>");
 				script.close();
 			}

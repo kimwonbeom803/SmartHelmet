@@ -53,13 +53,13 @@ public class BbsDAO2 {
 		return -1; 
 	}
 
-	public int write(String bbsTitle2, String userID2, String bbsContent2) {
+	public int write(String bbsTitle2, String userID, String bbsContent2) {
 		String SQL = "INSERT INTO bbs2 VALUES (?, ?, ?, ?, ?, ?)";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, getNext());
 			pstmt.setString(2, bbsTitle2);
-			pstmt.setString(3, userID2);
+			pstmt.setString(3, userID);
 			pstmt.setString(4, getDate());
 			pstmt.setString(5, bbsContent2);
 			pstmt.setInt(6, 1);
@@ -93,14 +93,14 @@ public class BbsDAO2 {
 			pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				Bbs2 bbs = new Bbs2();
-				bbs.setBbsID2(rs.getInt(1));
-				bbs.setBbsTitle2(rs.getString(2));
-				bbs.setUserID2(rs.getString(3));
-				bbs.setBbsDate2(rs.getString(4));
-				bbs.setBbsContent2(rs.getString(5));
-				bbs.setBbsAvailable2(rs.getInt(6));
-				list.add(bbs);
+				Bbs2 bbs2 = new Bbs2();
+				bbs2.setBbsID2(rs.getInt(1));
+				bbs2.setBbsTitle2(rs.getString(2));
+				bbs2.setUserID2(rs.getString(3));
+				bbs2.setBbsDate2(rs.getString(4));
+				bbs2.setBbsContent2(rs.getString(5));
+				bbs2.setBbsAvailable2(rs.getInt(6));
+				list.add(bbs2);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -108,21 +108,21 @@ public class BbsDAO2 {
 		return list;
 	}
 	
-	public Bbs2 getBbs(int bbsID) {
+	public Bbs2 getBbs(int bbsID2) {
 		String SQL = "SELECT * FROM bbs2 WHERE bbsID2 = ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, bbsID);
+			pstmt.setInt(1, bbsID2);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				Bbs2 bbs = new Bbs2();
-				bbs.setBbsID2(rs.getInt(1));
-				bbs.setBbsTitle2(rs.getString(2));
-				bbs.setUserID2(rs.getString(3));
-				bbs.setBbsDate2(rs.getString(4));
-				bbs.setBbsContent2(rs.getString(5));
-				bbs.setBbsAvailable2(rs.getInt(6));
-				return bbs;
+				Bbs2 bbs2 = new Bbs2();
+				bbs2.setBbsID2(rs.getInt(1));
+				bbs2.setBbsTitle2(rs.getString(2));
+				bbs2.setUserID2(rs.getString(3));
+				bbs2.setBbsDate2(rs.getString(4));
+				bbs2.setBbsContent2(rs.getString(5));
+				bbs2.setBbsAvailable2(rs.getInt(6));
+				return bbs2;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -130,13 +130,13 @@ public class BbsDAO2 {
 		return null; 
 	}
 	
-	public int update(int bbsID, String bbsTitle, String bbsContent) {
+	public int update(int bbsID2, String bbsTitle2, String bbsContent2) {
 		String SQL = "UPDATE bbs2 SET bbsTitle2 = ?, bbsContent2 = ? WHERE bbsID2 = ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setString(1, bbsTitle);
-			pstmt.setString(2, bbsContent);
-			pstmt.setInt(3, bbsID);
+			pstmt.setString(1, bbsTitle2);
+			pstmt.setString(2, bbsContent2);
+			pstmt.setInt(3, bbsID2);
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -144,11 +144,11 @@ public class BbsDAO2 {
 		return -1;
 	}
 	
-	public int delete(int bbsID) {
+	public int delete(int bbsID2) {
 		String SQL = "UPDATE bbs2 SET bbsAvailable2 = 0 WHERE bbsID2 = ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, bbsID);
+			pstmt.setInt(1, bbsID2);
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

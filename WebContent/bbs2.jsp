@@ -9,7 +9,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width" , initial-scale="1">
-<title>JSP 게시판 웹 사이트</title>
+<title>Smart-Helmet</title>
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/custom.css">
 <style type="text/css">
@@ -47,6 +47,8 @@
 					<li><a href="main.jsp">메인</a></li>
 					<li><a href="bbs.jsp">관리자게시판</a></li>
 					<li><a href="bbs2.jsp">근로자게시판</a></li>
+					<li><a href="Attend.jsp">출근부</a></li>
+					<li><a href="GoogleMap.jsp">근로자 위치 검색</a></li>
 				</ul>
 				<%
 				if (userID == null) {
@@ -100,7 +102,7 @@
 				%>
 					<tr>
 						<td><%= list.get(i).getBbsID2() %></td>
-						<td><a href="view.jsp?bbsID=<%= list.get(i).getBbsID2()%>"><%= list.get(i).getBbsTitle2() %></a></td>
+						<td><a href="view2.jsp?bbsID2=<%= list.get(i).getBbsID2()%>"><%= list.get(i).getBbsTitle2() %></a></td>
 						<td><%= list.get(i).getUserID2() %></td>
 						<td><%= list.get(i).getBbsDate2().substring(0, 11) + list.get(i).getBbsDate2().substring(11, 13) + "시 " + list.get(i).getBbsDate2().substring(14, 16) + "분" %></td>
 					</tr>
@@ -112,7 +114,7 @@
 			<%
 				if(pageNumber != 1) {
 			%>
-			<a href="bbs.jsp?pageNumber=<%=pageNumber - 1%>" class="btn btn-success btn-arrow-left">이전</a>
+			<a href="bbs2.jsp?pageNumber=<%=pageNumber - 1%>" class="btn btn-success btn-arrow-left">이전</a>
 			<%
 				}
 			%>

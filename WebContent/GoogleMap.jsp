@@ -4,10 +4,6 @@
 <%@ page import = "sensor.AccelerationDAO" %>
 <%@ page import = "JSP.LocationDAO" %>
 <%@ page import = "JSP.Location" %>
-<%@ page import = "sensor.PollutionDAO" %>
-<%@ page import = "sensor.VibrationDAO" %>
-<%@ page import = "sensor.LedDAO" %>
-<%@ page import = "sensor.VibrationInputDAO" %>
 <%@ page import = "java.io.PrintWriter" %>
 <%@ page import = "java.util.*" %>
 <%@ page import = "java.sql.*" %>
@@ -18,24 +14,36 @@
 <!DOCTYPE html>
 <html>
 
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>근로자 위치 검색</title> 
+<style>
+       #map {
+        height: 400px;
+        width: 100%;
+       }
+    </style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width" , initial-scale="1">
+<title>Smart-Helmet</title>
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/custom.css">
+<style type="text/css">
+	a, a:hover {
+		color: #000000;
+		text-decoration: none;
+	}
+</style>
 
 </head>
-
-<body onload="initialize()"> 
+ 
+<body> 
 
 <% 
- request.setCharacterEncoding("UTF-8");
- String kind = request.getParameter("kind");
- String userID = request.getParameter("userID");
- String dataX = request.getParameter("dataX");
- String dataY = request.getParameter("dataY");
- 
 
- String id = request.getParameter("id");
- String pwd = request.getParameter("pwd");
+String userID = null;
+if (session.getAttribute("userID") != null) {
+	userID = (String) session.getAttribute("userID");
+}
 
  String url = "jdbc:mysql://localhost/wbkim11";
  String SQLid = "wbkim11";
@@ -46,7 +54,7 @@
  ResultSet rs = null;
  double DataX;
  double DataY; 
- 
+ String Name;
  
     //여기 별표
     Class.forName("com.mysql.jdbc.Driver");
@@ -54,81 +62,109 @@
     stmt = conn.createStatement();
     rs = stmt.executeQuery("select * from locationinfo WHERE 1;");
     boolean flags = false;
-    //while(rs.next())
-   // {
-    	rs.next();
-       DataX = rs.getDouble("locationx");
-       DataY = rs.getDouble("locationy");
-       
-       
+   // while(rs.next()){
+    	//rs.next()
+   // }
+    rs.next();
+    Name = rs.getString("name");
+    DataX = rs.getDouble("locationx");
+    DataY = rs.getDouble("locationy");
+%>
+<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+					aria-expanded="false">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="main.jsp">Smart-Helmet</a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a href="main.jsp">메인</a></li>
+					<li><a href="bbs.jsp">관리자게시판</a></li>
+					<li><a href="bbs2.jsp">근로자게시판</a></li>
+					<li><a href="Attend.jsp">출근부</a></li>
+					<li><a href="GoogleMap.jsp">근로자 위치 검색</a></li>
+				</ul>
+				<%
+				if (userID == null) {
+				%>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false">접속하기<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="login.jsp">로그인</a></li>
+							<li><a href="join.jsp">회원가입</a></li>
+						</ul>
+					</li>
+				</ul>
+				<%
+				}
+				else {
+				%>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false">회원관리<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="logoutAction.jsp">로그아웃</a></li>
+						</ul>
+					</li>
+				</ul>
+				<%
+				}
+				%>
+			</div>
+		</div>
+	</nav>
+				
+	
 
+<div id="map"></div>
+    <script>
+      function initMap() {
+        var uluru = {lat: <%=DataX%>, lng: <%=DataY%>};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 15,
+          center: uluru
+        });
+
+
+    	 
+    	 // var map = new google.maps.Map(document.getElementById('map'), initMap);
+    	  
     
-// String DatazX = String.valueOf(DataX); 
-// String DatazY = String.valueOf(DataY);
+    	  var marker = new google.maps.Marker({ 
+    	            position: uluru, 
+    	            map: map,
+    	            title: "근로자 " + '<%=Name%>'
+    	  }); 
+    	  
+    	  var infowindow = new google.maps.InfoWindow( 
+    	          { 
+    	            content: "근로자 " + '<%=Name%>', 
+    	            maxWidth: 300 
+    	          } 
+    	  ); 
 
-// <input type="hidden" name="xyz" value='<%=request.getParameter(DataX)
+    	  google.maps.event.addListener(marker, 'click', function() { 
+    	  infowindow.open(map, marker); 
+    	  }); 
+      }
+    	     </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYB_9N0ldYwuJ9qvlDeHn2RIHwKvsXDMw&callback=initMap">
+    </script>
 
- %>
-  
- <%-- 
-<input type=hidden name="address" value='<%=DataX %>'>
-<input type=hidden name="address1" value='<%=DataY %>'> 
---%> 
-
-<%-- 
-<script>
-  var LocationX = '<%=Data1X%>';
-  document.write(LocationX);
-  </script>  
-  --%>
-
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&language=ko"></script>
-
- <script> 
-
- function initialize() { 
- // var LocationX = DataX;
- // var request = new Request();
-  // test 라는 파라메터 값을 얻기
- //  request.getParameter("address");
- //  var request1 = new Request();
-   // test 라는 파라메터 값을 얻기
-  //  request1.getParameter("address1");
- // var obj = document.getElementById("address");	
- // var obj1 = document.getElementById("address1");	
-
- 
- 
-  var myLatlng = new google.maps.LatLng(12,12); // y, x좌표값
-  var mapOptions = { 
-        zoom: 15, 
-        center: myLatlng, 
-        mapTypeId: google.maps.MapTypeId.ROADMAP 
-  } 
- 
-  var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
-  var marker = new google.maps.Marker({ 
-            position: myLatlng, 
-            map: map, 
-            title: "회사이름" 
-  }); 
-  var infowindow = new google.maps.InfoWindow( 
-          { 
-            content: "<h1>회사이름</h1>", 
-            maxWidth: 300 
-          } 
-  ); 
-
-  google.maps.event.addListener(marker, 'click', function() { 
-  infowindow.open(map, marker); 
-  }); 
-  }
-
- </script> 
-
-<div id="map_canvas" style="width:600px; height:400px;"></div> 
-
+	
+	<script src="js/bootstrap.js"></script>
 
 </body> 
+
 
 </html> 

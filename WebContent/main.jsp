@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter"%>
+<%@ page import = "sensor.PollutionDAO" %>
+<%@ page import = "sensor.Pollution" %>
+<%@ page import = "java.util.*" %>
+<%@ page import = "java.sql.*" %>
+<% request.setCharacterEncoding("utf-8");%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,14 +14,43 @@
 <title>JSP Smart-Helmet</title>
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/custom.css">
-</head>
+<style> .centered { display: table; margin-left: auto; margin-right: auto; } 
+</style>
+
 <body>
-	<%
-		String userID = null;
-		if (session.getAttribute("userID") != null) {
-			userID = (String) session.getAttribute("userID");
-		}
-	%>
+
+	<% 
+
+String userID = null;
+if (session.getAttribute("userID") != null) {
+	userID = (String) session.getAttribute("userID");
+}
+
+ String url = "jdbc:mysql://localhost/wbkim11";
+ String SQLid = "wbkim11";
+ String SQLpw = "q1w2e3r4";
+
+ Connection conn = null;
+ Statement stmt = null;
+ ResultSet rs = null;
+
+
+ 
+    //여기 별표
+    Class.forName("com.mysql.jdbc.Driver");
+    conn = DriverManager.getConnection(url, SQLid, SQLpw);
+    stmt = conn.createStatement();
+    rs = stmt.executeQuery("select * from sensorpollution WHERE 1;");
+    boolean flags = false;
+
+    rs.next();
+    int Ppm = rs.getInt(2);
+    
+
+    
+%>
+<div class="centered"> <div class="item">
+
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -73,11 +107,12 @@
 		<div class="jumbotron">
 			<div class="container">
 				<h1>Smart-Halmet</h1>
-				<p>한국산업기술대학교 컴퓨터공학과 Smart-Helmet 졸업작품 </p>
+				<p>근로자 안전 상황판 </p>
 				
 			</div>
 		</div>
 	</div>
+	<%-- 
 	<div class="container">
 		<div id="myCarousel" class="carousel slide" data-ride="carousel">
 			<ol class="carousel-indicators">
@@ -106,7 +141,78 @@
 			</a>
 		</div>	
 	</div>
+	--%>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {
+        "packages":["map"],
+        // Note: you will need to get a mapsApiKey for your project.
+        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+        "mapsApiKey": "AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY"
+    });
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Lat', 'Long', 'Name'],
+          [37.4232, -122.0853, 'Work'],
+          [37.4289, -122.1697, 'University'],
+          [37.6153, -122.3900, 'Airport'],
+          [37.4422, -122.1731, 'Shopping']
+        ]);
+
+        var map = new google.visualization.Map(document.getElementById('map_div'));
+        map.draw(data, {
+          showTooltip: true,
+          showInfoWindow: true
+        });
+      }
+
+    </script>
+    
+    <div id="map_div" style="width: 400px; height: 300px"></div>
+    
+    
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+	 google.charts.load('current', {'packages':['gauge']});
+     google.charts.setOnLoadCallback(drawChart);
+
+	function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Real Time Co', <%=Ppm%>],
+          ['Average Co', 101]
+        ]);
+
+        var options = {
+          max	: 300, min: 0,
+          width: 580, height: 150,
+          redFrom: 250, redTo: 300,
+          yellowFrom:200, yellowTo: 250,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+
+        setInterval(function() {
+          data.setValue(0, 1, <%=Ppm%>);
+          chart.draw(data, options);
+        }, 13000);
+        setInterval(function() {
+          data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+          chart.draw(data, options);
+        }, 5000);
+      }
+	</script>
+	
+<div id="chart_div" style="width: 400px; height: 120px;"></div>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.js"></script>
+	
+	</div> </div>
+	
 </body>
 </html>

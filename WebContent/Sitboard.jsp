@@ -1,43 +1,31 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
-<%@ page import = "sensor.AccelerationDAO" %>
-<%@ page import = "JSP.LocationDAO" %>
-<%@ page import = "JSP.Location" %>
+<%@ page import = "sensor.PollutionDAO" %>
+<%@ page import = "sensor.Pollution" %>
 <%@ page import = "java.io.PrintWriter" %>
 <%@ page import = "java.util.*" %>
 <%@ page import = "java.sql.*" %>
 <% request.setCharacterEncoding("utf-8");%>
-<jsp:useBean id = "location" class = "JSP.Location" scope = "page">
-<jsp:setProperty name = "location" property = "*"/>
+<jsp:useBean id = "Pollution" class = "sensor.Pollution" scope = "page">
+<jsp:setProperty name = "Pollution" property = "*"/>
 </jsp:useBean>
 <!DOCTYPE html>
 <html>
-
-
 <head>
-<style>
-       #map {
-        height: 400px;
-        width: 100%;
-       }
-    </style>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width" , initial-scale="1">
-<title>Smart-Helmet</title>
-<link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/custom.css">
-<style type="text/css">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width" , initial-scale="1">
+	<title>Smart-Helmet</title>
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/custom.css">
+	<style type="text/css">
 	a, a:hover {
 		color: #000000;
 		text-decoration: none;
 	}
-</style>
-
+	</style>
+	
 </head>
- 
-<body> 
-
+<body>
 <% 
 
 String userID = null;
@@ -52,24 +40,23 @@ if (session.getAttribute("userID") != null) {
  Connection conn = null;
  Statement stmt = null;
  ResultSet rs = null;
- double DataX;
- double DataY; 
- String Name;
+
+
  
     //여기 별표
     Class.forName("com.mysql.jdbc.Driver");
     conn = DriverManager.getConnection(url, SQLid, SQLpw);
     stmt = conn.createStatement();
-    rs = stmt.executeQuery("select * from locationinfo WHERE 1;");
+    rs = stmt.executeQuery("select * from sensorpollution WHERE 1;");
     boolean flags = false;
-   // while(rs.next()){
-    	//rs.next()
-   // }
+
     rs.next();
-    Name = rs.getString("name");
-    DataX = rs.getDouble("locationx");
-    DataY = rs.getDouble("locationy");
+    int Ppm = rs.getInt(2);
+    
+
+    
 %>
+
 <nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -122,49 +109,37 @@ if (session.getAttribute("userID") != null) {
 			</div>
 		</div>
 	</nav>
-				
 	
-
-<div id="map"></div>
-    <script>
-      function initMap() {
-        var uluru = {lat: <%=DataX%>, lng: <%=DataY%>};
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 15,
-          center: uluru
-        });
-
-
-    	 
-    	 // var map = new google.maps.Map(document.getElementById('map'), initMap);
-    	  
-    
-    	  var marker = new google.maps.Marker({ 
-    	            position: uluru, 
-    	            map: map,
-    	            title: "근로자 " + '<%=Name%>'
-    	  }); 
-    	  
-    	  var infowindow = new google.maps.InfoWindow( 
-    	          { 
-    	            content: "근로자 " + '<%=Name%>', 
-    	            maxWidth: 300 
-    	          } 
-    	  ); 
-
-    	  google.maps.event.addListener(marker, 'click', function() { 
-    	  infowindow.open(map, marker); 
-    	  }); 
-      }
-    	     </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYB_9N0ldYwuJ9qvlDeHn2RIHwKvsXDMw&callback=initMap">
-    </script>
-
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="js/bootstrap.js"></script>
-
-</body> 
+	
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawVisualization);
+	
+		function drawVisualization() { 
+			var data = google.visualization.arrayToDataTable([
+					['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua New Guinea', 'Rwanda', 'Average'],
+					['2004/05',  <%=Ppm%>,      938,         522,             998,           450,      614.6],
+					['2005/06',  135,      1120,        599,             1268,          288,      682],
+					['2006/07',  157,      1167,        587,             807,           397,      623],
+					['2007/08',  139,      1110,        615,             968,           215,      609.4]
+				]);
+			var options = {
+					title : 'Monthly Coffee Production by Country',
+					vAxis: {title: 'Cups'},
+					hAxis: {title: 'Month'}, 
+					seriesType: 'bars',
+					series: {5: {type: 'line'}}
+				};
+			
+			var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+			chart.draw(data, options);
+		}
+	</script>
+	
+<div id="chart_div" style="width:900px; height: 500px;"></div>
+</body>
+</html>
 
 
-</html> 
+

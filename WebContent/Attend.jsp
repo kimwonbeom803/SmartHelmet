@@ -140,7 +140,7 @@ margin-right : 50px;
                <span class="icon-bar"></span> <span class="icon-bar"></span> <span
                   class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="main.jsp">중고거래 사이트</a>
+            <a class="navbar-brand" href="main.jsp">Smart-Helmet</a>
          </div>
          <div class="collapse navbar-collapse"
             id="bs-example-navbar-collapse-1">

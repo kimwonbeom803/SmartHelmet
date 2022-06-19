@@ -4,6 +4,16 @@
 <%@ page import="attend.BbsDAO3"%>
 <%@ page import="attend.Bbs3"%>
 <%@ page import="java.util.ArrayList"%>
+<%
+	request.setCharacterEncoding("utf-8");
+%>
+
+<%! int flag = 0 ; %>
+<jsp:useBean id="Bbs3" class="attend.Bbs3" scope="page" />
+<jsp:setProperty name="Bbs3" property="attendTime"/>
+<jsp:setProperty name="Bbs3" property= "closeTime"/>
+<jsp:setProperty name="Bbs3" property= "userID2"/>
+
 
 <!DOCTYPE html>
 <html>
@@ -172,58 +182,84 @@ a, a:hover {
 	<h1>출근부</h1>
 
 
-
-
 	<div id="helmet" class="table table-striped">
 
-		<span id="helmet2"> <span> 사용자 정보 : </span> <span> <%=userID%>
-		</span>
+		<form method="post" action="manageAttendanceSearch.jsp">
+			<div id=cal2>
 
-		</span>
+				<span id="helmet2"> 사용자 정보 : <input type="text"
+					placeholder="          이름입력" name="userID2" maxlength="20">
 
-		<hr>
-
-
-<form method="post" action="AttendanceSearch.jsp">
-		<div id=cal2>
-			조회일 <br> <br>
-			<p>
-				<span id="cal3" class="input-group date"> <input type="text"
-					class="form-control" name="attendTime"><span
-					class="input-group-addon"><i
-						class="glyphicon glyphicon-calendar"></i></span>
 
 				</span>
-			</p>
+
+				<hr>
 
 
 
-			<div>~</div>
+				조회일 <br> <br>
+				<p>
+					<span id="cal3" class="input-group date"> <input type="text"
+						class="form-control" name="attendTime"><span
+						class="input-group-addon"><i
+							class="glyphicon glyphicon-calendar"></i></span>
 
-			<p>
-				<span id="cal3" class="input-group date"> <input type="text"
-					class="form-control" name="closeTime"><span
-					class="input-group-addon"><i
-						class="glyphicon glyphicon-calendar"></i></span>
+					</span>
+				</p>
 
-				</span>
-			</p>
-			<input type="submit" class="btn btn-primary form-control"
-				name="closeTime" value="검색">
-		
-		</div>
-			 </form>
-			
-		
-	<br>
-	<br>
+
+
+				<div>~</div>
+
+				<p>
+					<span id="cal3" class="input-group date"> <input type="text"
+						class="form-control" name="closeTime"><span
+						class="input-group-addon"><i
+							class="glyphicon glyphicon-calendar"></i></span>
+
+					</span>
+				</p>
+				<input type="submit" class="btn btn-primary form-control"
+					name="closeTime" value="검색">
+
+			</div>
+		</form>
+
+
+		<br> <br>
 
 
 	</div>
 
 	<div class="container">
 		<div class="row">
+			
+			
+			<%
 
+			
+			
+   System.out.println("flag 값 :" + flag);
+   String attendTime = Bbs3.getAttendTime();
+   String closeTime =  Bbs3.getCloseTime();
+   String userID2 = Bbs3.getUserID2();
+  
+   
+   System.out.println("시간더한값" + attendTime + closeTime);
+   
+   // 출근부 클릭했을때 flag값 0으로 넣어주기 . 
+   
+   if(Bbs3.getAttendTime() == null && Bbs3.getCloseTime() ==null && flag ==0)
+   {
+	   PrintWriter script = response.getWriter();
+	   
+	   script.println("<script>");
+		script.println("alert('아이고  날짜 입력 하셔야죠.');");
+		script.println("history.back();");
+		script.println("</script>");
+		script.close();
+   }
+   %>
 
 
 			<table class="table table-striped"
@@ -238,12 +274,34 @@ a, a:hover {
 				</thead>
 				<tbody>
 					<%
+					
+					
+					
 						BbsDAO3 bbsDAO3 = new BbsDAO3();
-						ArrayList<Bbs3> list = bbsDAO3.getList(pageNumber);
+					
+									
+						
+						ArrayList<Bbs3> list = bbsDAO3.getManageSearchList(pageNumber,userID2,attendTime,closeTime);
+						if(list.size()==0){
+							
+							 PrintWriter script = response.getWriter();
+							   script.println("<script>");
+								script.println("alert('자네는 이기간에 일을 하지 않았네.');");
+								script.println("history.back();");
+								script.println("</script>");
+								script.close();
+							
+						}
+							
+					
+						
+						
+						
 						for (int i = (pageNumber - 1) * 10; i < pageNumber * 10; i++) {
+						
 							if (i > list.size() - 1)
 								break;
-						
+							
 					%>
 					<tr>
 						<td><%=list.get(i).getUserID2()%></td>
@@ -259,13 +317,13 @@ a, a:hover {
 			<%
 				if (pageNumber != 1) {
 			%>
-			<a href="Attend.jsp?pageNumber=<%=pageNumber - 1%>"
+			<a href="AttendanceSearch.jsp?pageNumber=<%=pageNumber - 1%><% flag = 1; %>&attendTime=<%= attendTime %>&closeTime=<%=closeTime %>&userID2=<%=userID2%>"
 				class="btn btn-success btn-arrow-left">이전</a>
 			<%
 				}
 			%>
 
-			<a href="Attend.jsp?pageNumber=<%=pageNumber + 1%>"
+			<a href="AttendanceSearch.jsp?pageNumber=<%=pageNumber + 1 %><% flag = 1; %>&attendTime=<%= attendTime %>&closeTime=<%=closeTime %>&userID2=<%=userID2%>"
 				class="btn btn-success btn-arrow-right">다음</a>
 
 		</div>

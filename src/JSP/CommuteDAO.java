@@ -122,6 +122,7 @@ public void joinCommute(JSP.Commute user) throws SQLException {
 			user.setUserID(rs.getString("userID"));
 			user.setDate(rs.getString("date"));
 			user.setAttendtime(rs.getString("attendtime"));
+
 			user.setClosetime(rs.getString("closetime"));
 		}catch(SQLException e) {
 			e.printStackTrace();

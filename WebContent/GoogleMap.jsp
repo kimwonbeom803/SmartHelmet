@@ -8,9 +8,8 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "java.sql.*" %>
 <% request.setCharacterEncoding("utf-8");%>
-<jsp:useBean id = "location" class = "JSP.Location" scope = "page">
-<jsp:setProperty name = "location" property = "*"/>
-</jsp:useBean>
+
+
 <!DOCTYPE html>
 <html>
 
@@ -55,21 +54,41 @@ if (session.getAttribute("userID") != null) {
  double DataX;
  double DataY; 
  String Name;
- 
     //여기 별표
     Class.forName("com.mysql.jdbc.Driver");
     conn = DriverManager.getConnection(url, SQLid, SQLpw);
     stmt = conn.createStatement();
-    rs = stmt.executeQuery("select * from locationinfo WHERE 1;");
+    if(request.getParameter("condition") == null)
+    {
+    	rs = stmt.executeQuery("select * from locationinfo WHERE 1;");
+    }else{
+    	Name = request.getParameter("condition");
+    	rs = stmt.executeQuery("select * from locationinfo WHERE userID='"+Name+"';");
+    	
+    }
+    
     boolean flags = false;
    // while(rs.next()){
     	//rs.next()
    // }
-    rs.next();
+    LocationDAO locationdao = new LocationDAO();
+    Location user = locationdao.selectLocation(userID);
+   
+    if(rs.next() == false)
+	{
+    	PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('존재하지 않는 ID를 입력하셨습니다.');");
+		script.println("history.back();");
+		script.println("</script>");
+		script.close();
+		rs = stmt.executeQuery("select * from locationinfo WHERE 1;");
+	}
     Name = rs.getString("name");
     DataX = rs.getDouble("locationx");
     DataY = rs.getDouble("locationy");
 %>
+
 <nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -122,7 +141,11 @@ if (session.getAttribute("userID") != null) {
 			</div>
 		</div>
 	</nav>
-				
+<form action="GoogleMap.jsp" method="post">
+			<input type="text" size="20" name="condition"/>&nbsp;
+            <input type="submit" value="검색"/>
+</form>
+
 	
 
 <div id="map"></div>

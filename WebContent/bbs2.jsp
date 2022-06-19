@@ -47,7 +47,7 @@
 					<li><a href="main.jsp">메인</a></li>
 					<li><a href="bbs.jsp">관리자게시판</a></li>
 					<li><a href="bbs2.jsp">근로자게시판</a></li>
-					<li><a href="Attend.jsp">출근부</a></li>
+					<li><a href="manageAttendance.jsp">출근부</a></li>
 					<li><a href="GoogleMap.jsp">근로자 위치 검색</a></li>
 				</ul>
 				<%

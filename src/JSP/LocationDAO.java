@@ -31,6 +31,30 @@ Connection conn;
 		}
 	}
 	
+	//부분선택
+		public Location selectLocation(String userID) {
+			
+			JSP.Location user = new JSP.Location();
+			
+			try {
+				PreparedStatement ps
+				= conn.prepareStatement("select * from locationinfo where userID = ?");
+				ps.setString(1, userID);
+				
+				ResultSet rs = ps.executeQuery();
+				rs.next();
+
+				user.setUserID(rs.getString("userID"));
+				user.setName(rs.getString("name"));
+				user.setLocationx(rs.getDouble("locationx"));
+				user.setLocationy(rs.getDouble("locationy"));
+				
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+			return user;
+		}	
+	
 	public void joinLocation(JSP.Location user) throws SQLException {
 		
 		try {
@@ -92,27 +116,5 @@ Connection conn;
 		}
 		return list;
 	}
-	//부분선택
-	public JSP.Location selectLocation(String userID) {
-		
-		JSP.Location user = new JSP.Location();
-		
-		try {
-			PreparedStatement ps
-			= conn.prepareStatement("select * from locationinfo where userID = ?");
-			ps.setString(1, userID);
-			
-			ResultSet rs = ps.executeQuery();
-			rs.next();
-
-			user.setUserID(rs.getString("userID"));
-			user.setName(rs.getString("name"));
-			user.setLocationx(rs.getDouble("locationx"));
-			user.setLocationy(rs.getDouble("locationy"));
-			
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return user;
-	}	
+	
 }

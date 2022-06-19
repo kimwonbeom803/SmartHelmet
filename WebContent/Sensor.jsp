@@ -10,6 +10,7 @@
 <%@ page import = "sensor.VibrationInputDAO" %>
 <%@ page import = "java.io.PrintWriter" %>
 <%@ page import = "java.util.*" %>
+<%@ page import = "user.UserDAO" %>
 <% request.setCharacterEncoding("utf-8");%>
 <jsp:useBean id = "accel" class = "sensor.Acceleration" scope = "page">
 <jsp:setProperty name = "accel" property = "*"/>
@@ -35,16 +36,20 @@
 <jsp:useBean id = "location" class = "JSP.Location" scope = "page">
 <jsp:setProperty name = "location" property = "*"/>
 </jsp:useBean>
+<jsp:useBean id = "User" class = "user.User" scope = "page">
+<jsp:setProperty name = "User" property = "*"/>
+</jsp:useBean>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Sensor</title>
 </head>
 <body>
 <%
 
- java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyyMMdd");
+ java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy/MM/dd");
  String today = formatter.format(new java.util.Date());
  
 request.setCharacterEncoding("UTF-8");
@@ -53,7 +58,6 @@ String userID = request.getParameter("userID");
 String data = request.getParameter("data");
 String dataX = request.getParameter("dataX");
 String dataY = request.getParameter("dataY");
-
 
 
 
@@ -82,15 +86,16 @@ try{
 			//comDAO.deleteCommute(commute);
 
 		}else{
+			comDAO.deleteCommute(commute);
 			commute.setUserID(userID);
 			commute.setDate(today);
 			commute.setAttendtime(array[0]);
 			commute.setClosetime(array[1]);
-			comDAO.deleteCommute(commute);
+
 		}
-		
-		comDAO.joinCommute(commute);
-		break;         
+		 
+		 comDAO.joinCommute(commute);
+		 break;         
       //가속도(기울기)
       case 2 :
          AccelerationDAO accelDAO = new AccelerationDAO();
@@ -101,11 +106,14 @@ try{
          break;
       //오염도(가스)
       case 3 :
-         PollutionDAO polDAO = new PollutionDAO();
+         
+    	 PollutionDAO polDAO = new PollutionDAO();
          int InputPollutionMeasure = Integer.parseInt(data);
-         pollution.setUserID(userID);
+	 	 polDAO.deletePollution(userID);
+	 	 pollution.setUserID(userID);
          pollution.setInputPollutionMeasure(InputPollutionMeasure);
          polDAO.joinPollution(pollution);
+         
          break;
       //진동(입력)   
       case 4 :
@@ -136,16 +144,26 @@ try{
 	 		LocationDAO locDAO = new LocationDAO();
 	 		double X = Double.parseDouble(dataX);
 	 		double Y = Double.parseDouble(dataY);
-	 		  
+	 		locDAO.deleteLocation(userID);
 			location.setUserID(userID);
-			location.setName("wb");
+			location.setName(userID);
 			location.setLocationx(X);
 			location.setLocationy(Y);
+			//
 			locDAO.joinLocation(location);
 			out.print("0");
 			break;
+      case 8:
+    	  UserDAO userDAO = new UserDAO();
+    	  String token = data;
+    	  User.setUserToken(token);
+    	  User.setUserID(userID);
+    	  
+    	  userDAO.update(token, userID);
+    	   out.print(token);
    }
-   out.print("0");
+   
+   //out.print("0");
 }catch(Exception e) {
    e.printStackTrace();
    out.print("1");

@@ -54,7 +54,7 @@
 				} else {
 					PrintWriter script = response.getWriter();
 					script.println("<script>");
-					script.println("location.href = 'bbs.jsp?userID="+userID+"';");
+					script.println("location.href = 'm_bbs.jsp?userID="+userID+"';");
 					script.println("</script>");
 					script.close();
 				}

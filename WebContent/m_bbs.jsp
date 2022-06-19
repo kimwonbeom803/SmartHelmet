@@ -38,58 +38,6 @@
 		}
 	%>
 	
-	<nav class="navbar navbar-default">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed"
-					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-					aria-expanded="false">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="main.jsp">Smart-Helmet</a>
-			</div>
-			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav">
-					<li><a href="main.jsp">메인</a></li>
-					<li><a href="bbs.jsp">관리자게시판</a></li>
-					<li><a href="bbs2.jsp">근로자게시판</a></li>
-					<li><a href="manageAttendance.jsp">출근부</a></li>
-					<li><a href="GoogleMap.jsp">근로자 위치 검색</a></li>
-				</ul>
-				<%
-				if (userID == null) {
-				%>
-				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-haspopup="true"
-						aria-expanded="false">접속하기<span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="login.jsp">로그인</a></li>
-							<li><a href="join.jsp">회원가입</a></li>
-						</ul>
-					</li>
-				</ul>
-				<%
-				}
-				else {
-				%>
-				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-haspopup="true"
-						aria-expanded="false">회원관리<span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="logoutAction.jsp">로그아웃</a></li>
-						</ul>
-					</li>
-				</ul>
-				<%
-				}
-				%>
-			</div>
-		</div>
-	</nav>
 	<h1>관리자 게시판</h1>
 	<div class="container">
 		<div class="row">
@@ -133,7 +81,7 @@
 			<%
 				}
 			%>
-			<a href="write.jsp?userID=<%=userID%>" class="btn btn-primary pull-right">글쓰기</a>
+			<a href="m_write.jsp?userID=<%=userID%>" class="btn btn-primary pull-right">글쓰기</a>
 		</div>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>

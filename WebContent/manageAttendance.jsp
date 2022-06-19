@@ -87,6 +87,9 @@ a, a:hover {
 	border-color: #eeeeee;
 	text-align: center;
 	padding: 10px;
+	margin-left: 100px;
+	margin-right: 100px;
+	border-style: hidden;
 }
 
 #cal1 {
@@ -176,47 +179,49 @@ a, a:hover {
 
 	<div id="helmet" class="table table-striped">
 
-		<span id="helmet2"> <span> 사용자 정보 : </span> <span> <%=userID%>
-		</span>
+		<form method="post" action="manageAttendanceSearch.jsp">
+			<div id=cal2>
 
-		</span>
+				<span id="helmet2"> 사용자 정보 : <input type="text"
+					placeholder="          이름입력" name="userID2" maxlength="20">
 
-		<hr>
-
-
-<form method="post" action="AttendanceSearch.jsp">
-		<div id=cal2>
-			조회일 <br> <br>
-			<p>
-				<span id="cal3" class="input-group date"> <input type="text"
-					class="form-control" name="attendTime"><span
-					class="input-group-addon"><i
-						class="glyphicon glyphicon-calendar"></i></span>
 
 				</span>
-			</p>
+
+				<hr>
 
 
 
-			<div>~</div>
+				조회일 <br> <br>
+				<p>
+					<span id="cal3" class="input-group date"> <input type="text"
+						class="form-control" name="attendTime"><span
+						class="input-group-addon"><i
+							class="glyphicon glyphicon-calendar"></i></span>
 
-			<p>
-				<span id="cal3" class="input-group date"> <input type="text"
-					class="form-control" name="closeTime"><span
-					class="input-group-addon"><i
-						class="glyphicon glyphicon-calendar"></i></span>
+					</span>
+				</p>
 
-				</span>
-			</p>
-			<input type="submit" class="btn btn-primary form-control"
-				name="closeTime" value="검색">
-		
-		</div>
-			 </form>
-			
-		
-	<br>
-	<br>
+
+
+				<div>~</div>
+
+				<p>
+					<span id="cal3" class="input-group date"> <input type="text"
+						class="form-control" name="closeTime"><span
+						class="input-group-addon"><i
+							class="glyphicon glyphicon-calendar"></i></span>
+
+					</span>
+				</p>
+				<input type="submit" class="btn btn-primary form-control"
+					name="closeTime" value="검색">
+
+			</div>
+		</form>
+
+
+		<br> <br>
 
 
 	</div>
@@ -243,7 +248,6 @@ a, a:hover {
 						for (int i = (pageNumber - 1) * 10; i < pageNumber * 10; i++) {
 							if (i > list.size() - 1)
 								break;
-						
 					%>
 					<tr>
 						<td><%=list.get(i).getUserID2()%></td>
@@ -259,13 +263,13 @@ a, a:hover {
 			<%
 				if (pageNumber != 1) {
 			%>
-			<a href="Attend.jsp?pageNumber=<%=pageNumber - 1%>"
+			<a href="manageAttendance.jsp?pageNumber=<%=pageNumber - 1%>"
 				class="btn btn-success btn-arrow-left">이전</a>
 			<%
 				}
 			%>
 
-			<a href="Attend.jsp?pageNumber=<%=pageNumber + 1%>"
+			<a href="manageAttendance.jsp?pageNumber=<%=pageNumber + 1%>"
 				class="btn btn-success btn-arrow-right">다음</a>
 
 		</div>
